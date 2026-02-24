@@ -6,3 +6,7 @@ external/optix
 .vs/
 
 *.nsys-rep
+*.metal
+*.metal
+*.metallib
+*.metallib-asm
