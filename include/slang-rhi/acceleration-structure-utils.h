@@ -2,6 +2,8 @@
 
 #include <slang-rhi.h>
 
+#include <cstring>
+
 namespace rhi {
 
 inline AccelerationStructureInstanceDescType getAccelerationStructureInstanceDescType(DeviceType deviceType)

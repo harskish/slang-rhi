@@ -15,6 +15,10 @@
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#if defined(None)
+#undef None
+#endif
+
 #include <slang-rhi/glfw.h>
 
 #include <string>
@@ -344,11 +348,11 @@ static int main(int argc, const char** argv)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
     std::vector<DeviceType> deviceTypes = {
+        DeviceType::Vulkan,
+        DeviceType::Metal,
         // DeviceType::D3D11,
-        DeviceType::D3D12,
-        DeviceType::CUDA,
-        // DeviceType::Vulkan,
-        // DeviceType::Metal,
+        // DeviceType::D3D12,
+        // DeviceType::CUDA,
         // DeviceType::CPU,
         // DeviceType::CUDA,
         // Exclude for now as WGPU backend is not fully functional
@@ -360,7 +364,10 @@ static int main(int argc, const char** argv)
     // Create an example for each supported device type
     for (DeviceType deviceType : deviceTypes)
     {
-        if (rhi::getRHI()->isDeviceTypeSupported(deviceType))
+        const char* deviceName = rhi::getRHI()->getDeviceTypeName(deviceType);
+        bool supported = rhi::getRHI()->isDeviceTypeSupported(deviceType);
+        printf("[example] device %s supported: %s\n", deviceName, supported ? "yes" : "no");
+        if (supported)
         {
             Example* example = new Example();
             ExampleBase* prevMainExample = mainExample;
@@ -370,10 +377,12 @@ static int main(int argc, const char** argv)
             }
             if (SLANG_FAILED(example->init(deviceType)))
             {
+                printf("[example] init failed for %s\n", deviceName);
                 mainExample = prevMainExample;
                 delete example;
                 continue;
             }
+            printf("[example] init succeeded for %s\n", deviceName);
             examples.push_back(example);
         }
     }

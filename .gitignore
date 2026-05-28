@@ -7,3 +7,4 @@ external/optix
 .idea/
 
 *.nsys-rep
+.direnv/

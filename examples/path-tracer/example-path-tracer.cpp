@@ -6,6 +6,7 @@
 
 #include <map>
 #include <random>
+#include <cstring>
 
 using namespace rhi;
 using namespace linalg::aliases;

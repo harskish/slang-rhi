@@ -1269,8 +1269,22 @@ Result DeviceImpl::initialize(const DeviceDesc& desc, BackendImpl* backend)
     }
 
     // Initialize Vulkan API and loader.
-    SLANG_RETURN_ON_FAIL(m_module.init());
-    SLANG_RETURN_ON_FAIL(m_api.initGlobalProcs(m_module));
+    {
+        Result res = m_module.init();
+        if (SLANG_FAILED(res))
+        {
+            printError("Failed to load Vulkan loader (libvulkan).\n");
+            return res;
+        }
+    }
+    {
+        Result res = m_api.initGlobalProcs(m_module);
+        if (SLANG_FAILED(res))
+        {
+            printError("Failed to load Vulkan global procs.\n");
+            return res;
+        }
+    }
     descriptorSetAllocator.m_api = &m_api;
 
     // Initialize Vulkan instance.
@@ -1300,7 +1314,14 @@ Result DeviceImpl::initialize(const DeviceDesc& desc, BackendImpl* backend)
     // Initialize Vulkan device and query available features and capabilities.
     std::vector<Feature> availableFeatures;
     std::vector<Capability> availableCapabilities;
-    SLANG_RETURN_ON_FAIL(initVulkanDevice(desc, extendedDesc, backend, availableFeatures, availableCapabilities));
+    {
+        Result res = initVulkanDevice(desc, extendedDesc, backend, availableFeatures, availableCapabilities);
+        if (SLANG_FAILED(res))
+        {
+            printError("Failed to create Vulkan device.\n");
+            return res;
+        }
+    }
 
     VkPhysicalDeviceIDProperties idProps = {VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ID_PROPERTIES};
     VkPhysicalDeviceProperties2 props = {VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2};
