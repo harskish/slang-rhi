@@ -444,6 +444,7 @@ struct Scene
     struct MaterialDesc
     {
         float3 baseColor;
+        float pad;
     };
 
     struct MeshDesc
