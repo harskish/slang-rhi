@@ -8,3 +8,7 @@ external/optix
 
 *.nsys-rep
 .direnv/
+*.metal
+*.metal
+*.metallib
+*.metallib-asm
