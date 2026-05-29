@@ -103,8 +103,8 @@ struct CameraController
     static inline const std::map<int, float3> kMoveDirection = {
         {GLFW_KEY_A, float3(-1, 0, 0)},
         {GLFW_KEY_D, float3(1, 0, 0)},
-        {GLFW_KEY_E, float3(0, 1, 0)},
-        {GLFW_KEY_Q, float3(0, -1, 0)},
+        {GLFW_KEY_R, float3(0, 1, 0)},
+        {GLFW_KEY_F, float3(0, -1, 0)},
         {GLFW_KEY_W, float3(0, 0, 1)},
         {GLFW_KEY_S, float3(0, 0, -1)},
     };
@@ -159,8 +159,8 @@ struct CameraController
         if (action == GLFW_PRESS || action == GLFW_RELEASE)
         {
             bool down = action == GLFW_PRESS;
-            if (key == GLFW_KEY_A || key == GLFW_KEY_D || key == GLFW_KEY_W || key == GLFW_KEY_S || key == GLFW_KEY_Q ||
-                key == GLFW_KEY_E)
+            if (key == GLFW_KEY_A || key == GLFW_KEY_D || key == GLFW_KEY_W || key == GLFW_KEY_S || key == GLFW_KEY_R ||
+                key == GLFW_KEY_F)
             {
                 keyState[key] = down;
             }
